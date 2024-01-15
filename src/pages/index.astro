@@ -1,8 +1,10 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import { Button } from "@/components/ui/button";
+import Layout from "@/layouts/layout.astro";
+import DevelopButton from "./_develop-button.astro";
 ---
 
 <Layout>
-  <Button>Click me</Button>
+  <main class="flex justify-center items-center min-w-full min-h-dvh p-6">
+    <DevelopButton />
+  </main>
 </Layout>
