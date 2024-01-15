@@ -1,51 +1,56 @@
 ---
-interface Props {
-	title: string;
-}
+import "../global.css";
 
-const { title } = Astro.props;
+const title = "Zennhook";
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="ja">
+  <head>
+    <!-- Base -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <!-- TODO:Place the SVG file -->
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- TitleやDescription -->
+    <title>{title}</title>
+    <meta name="description" content="zenhook" />
+    <!-- <link rel="canonical" href={ pageUrl } />
+		<meta name="author" content={ author }>
+		<meta name="generator" content={ Astro.generator } />
+		{ noIndex && <meta name="robots" content="noindex" /> } -->
+
+    <!-- OGP系 -->
+    <!-- <meta property="og:title" content={title} />
+    <meta property="og:url" content={image} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:site" content={title} />
+    <meta property="og:image" content={image} />
+    <meta property="og:description" content={description} /> -->
+  </head>
+
+  <body>
+    <slot />
+  </body>
 </html>
-<style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-		background-size: 224px;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
-</style>
+
+<script>
+  // 360px以下のviewportを固定
+  const viewport = document.querySelector('meta[name="viewport"]');
+  function switchViewport() {
+    if (!viewport) return;
+    const value =
+      window.outerWidth > 360
+        ? "width=device-width,initial-scale=1"
+        : "width=360";
+    if (viewport.getAttribute("content") !== value) {
+      viewport.setAttribute("content", value);
+    }
+  }
+  addEventListener("resize", switchViewport, false);
+  switchViewport();
+</script>
