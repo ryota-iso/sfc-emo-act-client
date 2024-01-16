@@ -18,10 +18,6 @@ export type GPSData = {
   timestamp: number;
 };
 
-interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
-  requestPermission?: () => Promise<"granted" | "denied">;
-}
-
 export default () => {
   const [isRecording, setIsRecording] = useState(false);
   const [accelData, setAccelData] = useState<AccelData[]>([]);
