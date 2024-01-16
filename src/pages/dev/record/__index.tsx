@@ -4,6 +4,7 @@ import { RecordButton } from "./_record-button";
 import { DownloadButton } from "./_download-button";
 import { LogViewer } from "./_log-viewer";
 
+// TODO: 加速度とかGPSの取得系の処理をリファクタ
 export type AccelData = {
   x: number;
   y: number;
@@ -16,6 +17,10 @@ export type GPSData = {
   longitude: number;
   timestamp: number;
 };
+
+interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
+  requestPermission?: () => Promise<"granted" | "denied">;
+}
 
 export default () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -91,11 +96,27 @@ export default () => {
    * 加速度の記録を開始・停止状態に応じた処理
    */
   useEffect(() => {
-    // 加速度の記録
-    if (isRecording) {
-      window.addEventListener("devicemotion", recordAccelData);
+    const permission = (DeviceMotionEvent as any).requestPermission;
+    if (typeof permission === "function") {
+      permission()
+        .then((permissionState: "granted" | "denied") => {
+          if (permissionState === "granted") {
+            if (isRecording) {
+              window.addEventListener("devicemotion", recordAccelData);
+            } else {
+              window.removeEventListener("devicemotion", recordAccelData);
+            }
+          } else {
+            alert("denied");
+          }
+        })
+        .catch(console.error);
     } else {
-      window.removeEventListener("devicemotion", recordAccelData);
+      if (isRecording) {
+        window.addEventListener("devicemotion", recordAccelData);
+      } else {
+        window.removeEventListener("devicemotion", recordAccelData);
+      }
     }
 
     // GPSの記録
