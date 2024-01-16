@@ -22,62 +22,36 @@ export default () => {
   const [accelData, setAccelData] = useState<AccelData[]>([]);
   const [gpsData, setGpsData] = useState<GPSData[]>([]);
 
-  // const [currentAccel, setCurrentAccel] = useState<AccelData>({
-  //   x: 0,
-  //   y: 0,
-  //   z: 0,
-  //   timestamp: 0,
-  // });
-  // const [currentGPS, setCurrentGPS] = useState<GPSData>({
-  //   latitude: 0,
-  //   longitude: 0,
-  //   timestamp: 0,
-  // });
-
   /**
    * 記録開始・停止時の処理
    */
   const handleRecord = () => {
-    console.log("[debug / fn] handleRecord");
     // 記録開始, 停止フラグを反転
     setIsRecording((prev) => !prev);
-
-    // GPSの記録
-    handleGPS();
   };
 
   /**
    * 加速度の記録
    */
-  useEffect(() => {
-    const recordAccelData = (event: DeviceMotionEvent) => {
-      if (!event.acceleration) return;
-      const { x, y, z } = event.acceleration;
-      setAccelData((prevData): AccelData[] => [
-        ...prevData,
-        { timestamp: new Date().getTime(), x, y, z } as AccelData,
-      ]);
-    };
-
-    if (isRecording) {
-      window.addEventListener("devicemotion", recordAccelData);
-    } else {
-      window.removeEventListener("devicemotion", recordAccelData);
-    }
-
-    return () => {
-      window.removeEventListener("devicemotion", recordAccelData);
-    };
-  }, [isRecording]);
+  const recordAccelData = (event: DeviceMotionEvent) => {
+    if (!event.acceleration) return;
+    const { x, y, z } = event.acceleration;
+    setAccelData((prevData): AccelData[] => [
+      ...prevData,
+      { timestamp: new Date().getTime(), x, y, z } as AccelData,
+    ]);
+  };
 
   /**
    * GPSの記録
    */
   const [gpsWatchId, setGpsWatchId] = useState<number | undefined>(undefined);
-  const handleGPS = () => {
+  const recordGPSData = () => {
     if (isRecording) {
       const watchid = navigator.geolocation.watchPosition(
         (position) => {
+          if (!isRecording) return;
+
           const { latitude, longitude } = position.coords;
           const timestamp = position.timestamp;
           setGpsData((prevData) => [
@@ -102,6 +76,9 @@ export default () => {
     }
   };
 
+  /**
+   * GPSの記録を停止する
+   */
   useEffect(() => {
     return () => {
       if (gpsWatchId !== undefined) {
@@ -109,6 +86,25 @@ export default () => {
       }
     };
   }, [gpsWatchId]);
+
+  /**
+   * 加速度の記録を開始・停止状態に応じた処理
+   */
+  useEffect(() => {
+    // 加速度の記録
+    if (isRecording) {
+      window.addEventListener("devicemotion", recordAccelData);
+    } else {
+      window.removeEventListener("devicemotion", recordAccelData);
+    }
+
+    // GPSの記録
+    recordGPSData();
+
+    return () => {
+      window.removeEventListener("devicemotion", recordAccelData);
+    };
+  }, [isRecording]);
 
   /**
    * 加速度データに最も近いGPSデータを取得するユーティリティ関数
