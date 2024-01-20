@@ -1,0 +1,12 @@
+---
+import { Button } from "@/components/ui/button";
+import { MapPin } from "lucide-react";
+
+const { className } = Astro.props;
+---
+
+<Button variant="outline" className={`${className} w-full`}>
+  <MapPin strokeWidth={3} size={16} />
+  <!-- TODO:ユーザーネーム欄を動的変更する -->
+  <a class="ml-2 font-bold" href="/record/user0">行動を記録</a>
+</Button>
