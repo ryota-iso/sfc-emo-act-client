@@ -20,7 +20,7 @@ export const Map: FC<Props> = ({ currentLocation, isLoading }) => {
   return (
     <>
       {isLoading && (
-        <span className="absolute flex justify-center items-center inset-0 backdrop-blur-md m z-[9999]">
+        <span className="absolute flex justify-center items-center inset-0 backdrop-blur-md m z-[10000]">
           <LoadingIcon />
         </span>
       )}
@@ -30,11 +30,7 @@ export const Map: FC<Props> = ({ currentLocation, isLoading }) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={currentLocation}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        {!isLoading && <Marker position={currentLocation} />}
       </MapContainer>
     </>
   );

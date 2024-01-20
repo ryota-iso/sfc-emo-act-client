@@ -8,3 +8,9 @@ const { username } = Astro.params;
 <Layout>
   <Main client:only />
 </Layout>
+
+<style is:global>
+  .leaflet-control-container {
+    display: none;
+  }
+</style>
