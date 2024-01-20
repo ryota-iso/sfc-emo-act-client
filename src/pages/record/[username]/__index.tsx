@@ -7,6 +7,7 @@ import { StatusBadge } from "./_status-badge";
 import { Map } from "./_map";
 import { LocationLogger } from "./_location-logger";
 import { AccelerationLogger } from "./_acceleration-logger";
+import { AccelerationViewer } from "./_acceleration-viewer";
 
 export default () => {
   const [isLoading, setisLoading] = useState<boolean>(true);
@@ -22,14 +23,18 @@ export default () => {
       <BackToTopButton className="fixed top-4 left-4 z-[500]" />
       <StatusBadge status={status} className="fixed top-4 right-4 z-[500]" />
       <Map isLoading={isLoading} currentLocation={location} />
-      <LocationLogger
-        location={location}
-        setLocation={setLocation}
-        setIsLoading={setisLoading}
+      <AccelerationViewer
+        className="fixed bottom-4 left-4 z-[500]"
+        acceleration={acceleration}
       />
       <AccelerationLogger
         acceleration={acceleration}
         setAcceleration={setAcceleration}
+      />
+      <LocationLogger
+        location={location}
+        setLocation={setLocation}
+        setIsLoading={setisLoading}
       />
     </>
   );
