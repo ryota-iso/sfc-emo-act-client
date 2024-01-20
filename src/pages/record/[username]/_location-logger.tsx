@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useState, useEffect } from "react";
 import type { LatLngExpression } from "leaflet";
+import { recordSocket as socket } from "@/lib/socketio";
 
 type Props = {
   location?: LatLngExpression;
@@ -20,6 +21,12 @@ export const LocationLogger: FC<Props> = ({
     const id = navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
+        if (socket) {
+          console.log("[LocationLogger] emit locationUpdate");
+          socket.emit("locationUpdate", [latitude, longitude]);
+        } else {
+          console.log("[LocationLogger] socket is undefined");
+        }
         setLocation([latitude, longitude]);
         setIsLoading(false);
         console.log("[LocationLogger] update location: ", location);

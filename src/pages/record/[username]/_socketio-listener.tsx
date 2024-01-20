@@ -1,19 +1,9 @@
-import { useEffect } from "react";
 import type { FC } from "react";
-import { socket } from "@/lib/socketio";
+import { recordSocket as socket } from "@/lib/socketio";
 
 type Props = {};
 
-export const SocketioListener: FC<Props> = () => {
-  // 接続, 切断
-  useEffect(() => {
-    socket.connect();
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
+export const SocketIOListener: FC<Props> = () => {
   // 接続時
   socket.on("connect", () => {
     console.log("connect");
