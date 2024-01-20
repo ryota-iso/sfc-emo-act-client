@@ -1,13 +1,14 @@
 import { useState } from "react";
 import type { LatLngExpression } from "leaflet";
-import type { Status } from "./_status-badge";
+import type { Status } from "../../../components/_status-badge";
 
 import { BackToTopButton } from "@/components/back-to-top-button";
-import { StatusBadge } from "./_status-badge";
-import { Map } from "./_map";
+import { StatusBadge } from "../../../components/_status-badge";
+import { Map } from "../../../components/_map";
 import { LocationLogger } from "./_location-logger";
 import { AccelerationLogger } from "./_acceleration-logger";
-import { AccelerationViewer } from "./_acceleration-viewer";
+import { AccelerationViewer } from "../../../components/_acceleration-viewer";
+import { SocketioListener } from "./_socketio-listener";
 
 export default () => {
   const [isLoading, setisLoading] = useState<boolean>(true);
@@ -36,6 +37,7 @@ export default () => {
         setLocation={setLocation}
         setIsLoading={setisLoading}
       />
+      <SocketioListener />
     </>
   );
 };
