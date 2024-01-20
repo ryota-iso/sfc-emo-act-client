@@ -1,0 +1,10 @@
+---
+import Layout from "@/layouts/layout.astro";
+import Main from "./__index";
+
+const { username } = Astro.params;
+---
+
+<Layout>
+  <Main client:only />
+</Layout>

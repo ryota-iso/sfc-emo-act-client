@@ -1,10 +1,22 @@
 ---
 import Layout from "@/layouts/layout.astro";
 // import DevelopButton from "./_develop-button.astro";
+import ActionLinkButton from "./_action-link-button.astro";
+import HistoryLinkButton from "./_history-link-button.astro";
+import MonitorLinkButton from "./_monitor-link-button.astro";
+import SettingLinkButton from "./_setting-link-button.astro";
+import { LogoutButton } from "./_logout-button.tsx";
 ---
 
 <Layout>
   <main class="flex justify-center items-center min-w-full min-h-dvh p-6">
-    <!-- <DevelopButton /> -->
+    <div class="max-w-80 w-full">
+      <!-- <DevelopButton /> -->
+      <ActionLinkButton />
+      <HistoryLinkButton className="mt-2" />
+      <MonitorLinkButton className="mt-2" />
+      <SettingLinkButton className="mt-2" />
+      <LogoutButton className="mt-2" client:only />
+    </div>
   </main>
 </Layout>
