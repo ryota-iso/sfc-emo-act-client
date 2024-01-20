@@ -5,9 +5,14 @@ import type { LatLngExpression } from "leaflet";
 type Props = {
   location?: LatLngExpression;
   setLocation: (location: LatLngExpression) => void;
+  setIsLoading: (isLoading: boolean) => void;
 };
 
-export const LocationLogger: FC<Props> = ({ location, setLocation }) => {
+export const LocationLogger: FC<Props> = ({
+  location,
+  setLocation,
+  setIsLoading,
+}) => {
   const [watchId, seWatchId] = useState<number | undefined>(undefined);
 
   /**
@@ -19,6 +24,7 @@ export const LocationLogger: FC<Props> = ({ location, setLocation }) => {
       (position) => {
         const { latitude, longitude } = position.coords;
         setLocation([latitude, longitude]);
+        setIsLoading(false);
         console.log("[LocationLogger] update location: ", location);
       },
       (error) => {
@@ -37,6 +43,7 @@ export const LocationLogger: FC<Props> = ({ location, setLocation }) => {
     return () => {
       if (watchId) {
         navigator.geolocation.clearWatch(watchId);
+        console.log("[LocationLogger] clear geolocation watch");
       }
     };
   }, []);
