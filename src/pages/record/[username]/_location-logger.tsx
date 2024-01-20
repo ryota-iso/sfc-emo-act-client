@@ -15,9 +15,6 @@ export const LocationLogger: FC<Props> = ({
 }) => {
   const [watchId, seWatchId] = useState<number | undefined>(undefined);
 
-  /**
-   * 初回レンダリング時のみ実行
-   */
   useEffect(() => {
     // 位置情報の取得
     const id = navigator.geolocation.watchPosition(

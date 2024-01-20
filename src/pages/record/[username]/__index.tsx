@@ -6,12 +6,15 @@ import { BackToTopButton } from "@/components/back-to-top-button";
 import { StatusBadge } from "./_status-badge";
 import { Map } from "./_map";
 import { LocationLogger } from "./_location-logger";
+import { AccelerationLogger } from "./_acceleration-logger";
 
 export default () => {
   const [isLoading, setisLoading] = useState<boolean>(true);
   const [location, setLocation] = useState<LatLngExpression>([
     35.681236, 139.767125,
   ]);
+  const [acceleration, setAcceleration] =
+    useState<DeviceMotionEventAcceleration>();
   const [status, setStatus] = useState<Status>("未検出");
 
   return (
@@ -23,6 +26,10 @@ export default () => {
         location={location}
         setLocation={setLocation}
         setIsLoading={setisLoading}
+      />
+      <AccelerationLogger
+        acceleration={acceleration}
+        setAcceleration={setAcceleration}
       />
     </>
   );
