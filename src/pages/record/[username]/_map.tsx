@@ -4,18 +4,24 @@ import type { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 type Props = {
-  currentPosition: LatLngExpression;
-  route?: LatLngExpression[];
+  currentLocation: LatLngExpression;
 };
 
-export const Map: FC<Props> = ({ currentPosition }) => {
+const ChangeView = ({ center }: { center: LatLngExpression }) => {
+  const map = useMap();
+  map.setView(center);
+  return null;
+};
+
+export const Map: FC<Props> = ({ currentLocation }) => {
   return (
-    <MapContainer center={currentPosition} zoom={17} className="h-dvh w-full">
+    <MapContainer center={currentLocation} zoom={17} className="h-dvh w-full">
+      <ChangeView center={currentLocation} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={currentPosition}>
+      <Marker position={currentLocation}>
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
