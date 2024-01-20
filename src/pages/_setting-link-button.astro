@@ -1,0 +1,11 @@
+---
+import { Button } from "@/components/ui/button";
+import { Settings } from "lucide-react";
+
+const { className } = Astro.props;
+---
+
+<Button variant="outline" className={`${className} w-full`}>
+  <Settings strokeWidth={3} size={16} />
+  <a class="ml-2 font-bold" href="/settings">設定の変更</a>
+</Button>
