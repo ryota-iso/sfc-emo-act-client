@@ -13,14 +13,16 @@ export type ClientToServerEvents = {
 
 export type SocketIOSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 
-export const recordSocket: SocketIOSocket = io("http://localhost:4000", {
+const URL: string = import.meta.env.SOCKET_URL || "http://localhost:4000";
+
+export const recordSocket: SocketIOSocket = io(URL, {
   query: {
     isHost: true,
   },
   autoConnect: false,
 });
 
-export const monitorSocket: SocketIOSocket = io("http://localhost:4000", {
+export const monitorSocket: SocketIOSocket = io(URL, {
   query: {
     roomUUID: "test",
   },
