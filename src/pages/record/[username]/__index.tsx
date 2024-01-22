@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { LatLngExpression } from "leaflet";
 import type { Status } from "@/components/_status-badge";
-import { recordSocket as socket } from "@/lib/socketio";
+import { recordSocket as socket } from "@/libs/socketio";
 
 import { BackToTopButton } from "@/components/back-to-top-button";
 import { StatusBadge } from "@/components/_status-badge";

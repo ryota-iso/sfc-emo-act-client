@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { recordSocket as socket } from "@/lib/socketio";
+import { recordSocket as socket } from "@/libs/socketio";
 
 type Props = {};
 

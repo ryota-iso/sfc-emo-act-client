@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import type { LatLngExpression } from "leaflet";
-import { monitorSocket as socket } from "@/lib/socketio";
+import { monitorSocket as socket } from "@/libs/socketio";
 
 type Props = {
   setLocation: (location: LatLngExpression) => void;

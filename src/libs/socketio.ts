@@ -1,6 +1,7 @@
 import type { Socket } from "socket.io-client";
 import type { LatLngExpression } from "leaflet";
 import io from "socket.io-client";
+import { env } from "@/libs/env";
 
 export type ServerToClientEvents = {
   locationUpdate: (location: LatLngExpression) => void; // 位置情報の更新を受信
@@ -13,7 +14,7 @@ export type ClientToServerEvents = {
 
 export type SocketIOSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 
-const URL: string = import.meta.env.SOCKET_URL || "http://localhost:4000";
+const URL: string = env.SOCKET_URL;
 
 export const recordSocket: SocketIOSocket = io(URL, {
   query: {

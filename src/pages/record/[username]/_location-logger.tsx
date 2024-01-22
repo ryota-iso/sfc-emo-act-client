@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useState, useEffect } from "react";
 import type { LatLngExpression } from "leaflet";
-import { recordSocket as socket } from "@/lib/socketio";
+import { recordSocket as socket } from "@/libs/socketio";
 
 type Props = {
   location?: LatLngExpression;
