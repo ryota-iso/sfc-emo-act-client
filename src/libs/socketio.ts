@@ -3,13 +3,16 @@ import type { LatLngExpression } from "leaflet";
 import io from "socket.io-client";
 import { env } from "@/libs/env";
 
-export type ServerToClientEvents = {
-  locationUpdate: (location: LatLngExpression) => void; // 位置情報の更新を受信
-  roomDelete: () => void; //                               ルーム削除を受信
+type ServerToClientEvents = {
+  // 位置情報の更新を受信
+  locationUpdate: (location: LatLngExpression) => void;
+  // ルーム削除を受信
+  roomDelete: () => void;
 };
 
-export type ClientToServerEvents = {
-  locationUpdate: (location: LatLngExpression) => void; // 位置情報の更新を送信
+type ClientToServerEvents = {
+  // 位置情報の更新を送信
+  locationUpdate: (location: LatLngExpression) => void;
 };
 
 export type SocketIOSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
