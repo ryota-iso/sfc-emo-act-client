@@ -4,13 +4,11 @@ import type { LatLngExpression } from "leaflet";
 import { recordSocket as socket } from "@/libs/socketio";
 
 type Props = {
-  location?: LatLngExpression;
   setLocation: (location: LatLngExpression) => void;
   setIsLoading: (isLoading: boolean) => void;
 };
 
 export const LocationLogger: FC<Props> = ({
-  location,
   setLocation,
   setIsLoading,
 }) => {
@@ -21,15 +19,12 @@ export const LocationLogger: FC<Props> = ({
     const id = navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        if (socket) {
-          console.log("[LocationLogger] emit locationUpdate");
-          socket.emit("locationUpdate", [latitude, longitude]);
-        } else {
-          console.log("[LocationLogger] socket is undefined");
-        }
+        console.log("[LocationLogger] update location: ", [latitude, longitude]);
+        // サーバに位置情報を送信
+        if (socket) socket.emit("locationUpdate", [latitude, longitude]);
+        // stateを更新
         setLocation([latitude, longitude]);
         setIsLoading(false);
-        console.log("[LocationLogger] update location: ", location);
       },
       (error) => {
         console.warn(error);

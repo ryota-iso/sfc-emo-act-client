@@ -35,7 +35,11 @@ export default () => {
         className="fixed bottom-4 left-4 z-[500]"
         acceleration={acceleration}
       />
-      <SocketIOListener setLocation={setLocation} setIsLoading={setIsLoading} />
+      <SocketIOListener
+        setLocation={setLocation}
+        setAcceleration={setAcceleration}
+        setIsLoading={setIsLoading}
+      />
     </>
   );
 };

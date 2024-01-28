@@ -1,41 +1,24 @@
 import type { FC } from "react";
 import { useEffect } from "react";
-
-/**
- * 加速度取得権限のリクエスト
- */
-async function requestMotionPermission() {
-  try {
-    const permission = (DeviceMotionEvent as any).requestPermission;
-    if (typeof permission === "function") {
-      const permissionState = await permission();
-      return permissionState === "granted";
-    } else {
-      // ブラウザが requestPermission メソッドをサポートしていない場合、'granted' と見なす
-      return true;
-    }
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-}
+import type { LatLngExpression } from "leaflet";
 
 type Props = {
-  acceleration: DeviceMotionEventAcceleration | undefined;
   setAcceleration: (acceleration: DeviceMotionEventAcceleration) => void;
+  location: LatLngExpression;
 };
 
 export const AccelerationLogger: FC<Props> = ({
-  acceleration,
   setAcceleration,
+  location,
 }) => {
   useEffect(() => {
     // 加速度の記録
     const recordAccelData = (event: DeviceMotionEvent) => {
       if (!event.acceleration) return;
       const { x, y, z } = event.acceleration;
+      console.log("[AccelerationLogger] update acceleration: ", { x, y, z });
+      // stateを更新
       setAcceleration({ x, y, z });
-      console.log("[AccelerationLogger] update acceleration: ", acceleration);
     };
 
     // パーミッションを確認し、加速度の記録を開始
@@ -56,3 +39,22 @@ export const AccelerationLogger: FC<Props> = ({
 
   return undefined;
 };
+
+/**
+ * 加速度取得権限のリクエスト
+ */
+async function requestMotionPermission() {
+  try {
+    const permission = (DeviceMotionEvent as any).requestPermission;
+    if (typeof permission === "function") {
+      const permissionState = await permission();
+      return permissionState === "granted";
+    } else {
+      // ブラウザが requestPermission メソッドをサポートしていない場合、'granted' と見なす
+      return true;
+    }
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
